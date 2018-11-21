@@ -1,4 +1,4 @@
-package com.syrova_ma.taskbroadcast;
+package com.syrovama.taskbroadcast;
 
 import android.content.Context;
 import android.content.Intent;
@@ -6,12 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.JobIntentService;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
-
 import java.util.Random;
-
-/**
- * Created by SBT-Syrova-MA on 20.11.2018.
- */
 
 public class StateService extends JobIntentService {
     static final int JOB_ID = 1000;
@@ -37,8 +32,8 @@ public class StateService extends JobIntentService {
         Log.d(TAG, "Broadcast sent");
     }
 
-    public static Intent newIntent(Context c) {
-        return new Intent(c, StateService.class);
+    public static Intent newIntent(Context context) {
+        return new Intent(context, StateService.class);
     }
 
     @Override

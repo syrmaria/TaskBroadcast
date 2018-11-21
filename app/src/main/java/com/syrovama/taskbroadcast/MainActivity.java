@@ -1,4 +1,4 @@
-package com.syrova_ma.taskbroadcast;
+package com.syrovama.taskbroadcast;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -15,11 +15,10 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
     public static final String TAG = "MyMainActivity";
-    public static final String STATE_FILTER = "com.syrova_ma.taskbroadcast.state";
-    Button changeStateButton;
-    StateReceiver stateReceiver;
-    TextView stateTextView;
-    String state;
+    public static final String STATE_FILTER = "com.syrovama.taskbroadcast.state";
+    private StateReceiver stateReceiver;
+    private TextView stateTextView;
+    private String state;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +29,12 @@ public class MainActivity extends AppCompatActivity {
             state = savedInstanceState.getString(StateService.STATE);
             updateUI();
         }
-        changeStateButton = findViewById(R.id.change_state_button);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Button changeStateButton = findViewById(R.id.change_state_button);
         changeStateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -40,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
         stateReceiver = new StateReceiver(new Handler());
         IntentFilter intentFilter = new IntentFilter(STATE_FILTER);
         LocalBroadcastManager.getInstance(this).registerReceiver(stateReceiver, intentFilter);
+
     }
 
     private void doStartService() {
@@ -53,11 +58,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onDestroy() {
+    protected void onPause() {
         stopService(StateService.newIntent(this));
         LocalBroadcastManager.getInstance(this).unregisterReceiver(stateReceiver);
-        Log.d(TAG, "OnDestroy - stopped service and receiver");
-        super.onDestroy();
+        Log.d(TAG, "OnPause - stopped service and receiver");
+        super.onPause();
     }
 
     @Override
